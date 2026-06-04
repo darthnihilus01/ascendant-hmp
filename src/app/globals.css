@@ -109,3 +109,20 @@ body {
   outline: 2px solid var(--mocha-lavender);
   outline-offset: 2px;
 }
+
+@keyframes bootCursorBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.boot-cursor {
+  display: inline-block;
+  margin-left: 6px;
+  animation: bootCursorBlink 1s steps(2, start) infinite;
+}
