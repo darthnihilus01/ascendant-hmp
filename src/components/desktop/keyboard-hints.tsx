@@ -13,7 +13,7 @@ const hints = [
 export default function KeyboardHints() {
   return (
     <motion.aside
-      className="self-end rounded-md border border-mocha-surface1/60 bg-mocha-mantle/70 px-3 py-2 text-[11px] text-mocha-subtext0"
+      className="self-end rounded-sm border border-[#222222] bg-[#121212] px-3 py-1 text-[10px] font-mono text-[#888888]"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.2 }}

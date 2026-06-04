@@ -30,16 +30,16 @@ export default function WorkspaceView() {
         </motion.div>
       </AnimatePresence>
       {minimizedWindows.length > 0 ? (
-        <div className="flex flex-wrap gap-2 rounded-md border border-mocha-surface1/60 bg-mocha-mantle/70 px-3 py-2 text-xs text-mocha-subtext1">
-          <span className="text-mocha-overlay2">minimized</span>
+        <div className="flex flex-wrap gap-2 rounded-sm border border-[#222222] bg-[#121212] px-3.5 py-1.5 text-xs text-[#888888] font-mono">
+          <span className="text-[#888888]/75">minimized:</span>
           {minimizedWindows.map((windowItem) => (
             <button
               key={windowItem.id}
               type="button"
               onClick={() => toggleMinimize(windowItem.id)}
-              className="focus-ring rounded bg-mocha-surface0/70 px-2 py-1 text-mocha-subtext1 hover:text-mocha-text"
+              className="focus-ring rounded-sm bg-[#222222]/40 border border-[#222222] px-2 py-0.5 text-white hover:bg-[#222222]/80 transition duration-150"
             >
-              {windowItem.title}
+              {windowItem.title.toLowerCase()}
             </button>
           ))}
         </div>

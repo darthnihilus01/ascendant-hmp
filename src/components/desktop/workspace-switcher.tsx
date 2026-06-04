@@ -6,7 +6,7 @@ export default function WorkspaceSwitcher() {
   const { state, switchWorkspace } = useDesktop();
 
   return (
-    <div className="flex items-center gap-2 text-xs">
+    <div className="flex items-center gap-1.5 text-xs font-mono font-bold">
       {state.workspaces.map((workspace, index) => {
         const isActive = workspace.id === state.activeWorkspaceId;
         return (
@@ -14,10 +14,10 @@ export default function WorkspaceSwitcher() {
             key={workspace.id}
             type="button"
             onClick={() => switchWorkspace(workspace.id)}
-            className={`focus-ring rounded px-2 py-1 transition ${
+            className={`focus-ring px-2 py-0.5 rounded-sm transition-all duration-150 ${
               isActive
-                ? "bg-mocha-lavender/20 text-mocha-lavender"
-                : "bg-mocha-crust/40 text-mocha-subtext1 hover:text-mocha-text"
+                ? "bg-white text-black"
+                : "bg-[#222222]/40 text-[#888888] hover:bg-[#222222]/80 hover:text-white"
             }`}
           >
             {index + 1}

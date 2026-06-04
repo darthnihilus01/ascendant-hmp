@@ -10,8 +10,8 @@ export default function StatusBar() {
 
   return (
     <motion.header
-      className={`flex items-center justify-between rounded-md border border-mocha-surface1/70 bg-mocha-mantle/70 px-4 py-2 backdrop-blur focus-ring ${
-        isFocused ? "shadow-[0_0_18px_var(--desktop-glow)]" : ""
+      className={`flex items-center justify-between rounded-sm border px-4 py-1.5 bg-[#121212]/90 backdrop-blur focus-ring transition-all duration-150 ${
+        isFocused ? "border-white" : "border-[#222222]"
       }`}
       data-focus-id="status"
       tabIndex={0}
@@ -21,15 +21,15 @@ export default function StatusBar() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
     >
-      <div className="flex items-center gap-3 text-sm">
-        <span className="rounded bg-mocha-surface0 px-2 py-1 text-xs text-mocha-subtext1">
-          ASC-26
+      <div className="flex items-center gap-3 text-xs font-mono">
+        <span className="bg-white text-black px-2 py-0.5 font-bold rounded-sm uppercase tracking-wider">
+          sys
         </span>
-        <span className="text-mocha-text">Ascendant Control</span>
+        <span className="text-white font-semibold">ascendant-hmp</span>
       </div>
-      <div className="flex items-center gap-4 text-xs text-mocha-subtext0">
-        <span>{activeWorkspace.hint}</span>
-        <span className="text-mocha-teal">session: live</span>
+      <div className="flex items-center gap-4 text-xs font-mono text-[#888888]">
+        <span className="border-r border-[#222222] pr-4">{activeWorkspace.hint.toLowerCase()}</span>
+        <span className="text-emerald-500 font-bold">● live</span>
       </div>
       <WorkspaceSwitcher />
     </motion.header>

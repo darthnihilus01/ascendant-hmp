@@ -10,10 +10,7 @@ export default function DesktopShell() {
   const keyboard = useKeyboardNavigation();
 
   return (
-    <div className="relative min-h-screen w-screen overflow-hidden bg-mocha-base text-mocha-text">
-      <div className="absolute inset-0 desktop-grid opacity-35" />
-      <div className="absolute inset-0 noise-overlay" />
-      <div className="absolute inset-0 scanlines opacity-40" />
+    <div className="relative min-h-screen w-screen overflow-hidden bg-[#0a0a0a] text-white">
       <div
         className="relative flex min-h-screen flex-col gap-4 px-6 py-4 focus-ring outline-none"
         tabIndex={0}

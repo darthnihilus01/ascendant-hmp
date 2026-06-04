@@ -9,8 +9,8 @@ export default function Launcher() {
 
   return (
     <motion.section
-      className={`flex items-center justify-between rounded-md border border-mocha-surface1/70 bg-mocha-crust/70 px-4 py-3 text-xs focus-ring ${
-        isFocused ? "shadow-[0_0_18px_var(--desktop-glow)]" : ""
+      className={`flex items-center justify-between rounded-sm border-2 bg-[#121212] px-4 py-2.5 text-xs font-mono focus-ring transition-all duration-150 ${
+        isFocused ? "border-white" : "border-[#222222]"
       }`}
       data-focus-id="launcher"
       tabIndex={0}
@@ -20,11 +20,16 @@ export default function Launcher() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35 }}
     >
-      <div className="flex flex-col gap-1">
-        <span className="text-mocha-subtext0">launcher</span>
-        <span className="text-mocha-text">ascendant://command</span>
+      <div className="flex items-center gap-3">
+        <span className="bg-white text-black font-bold px-1.5 py-0.5 rounded-sm text-[10px] uppercase tracking-wider">
+          run
+        </span>
+        <span className="text-white font-semibold">ascendant://command</span>
+        {isFocused && <span className="boot-cursor text-white font-bold">█</span>}
       </div>
-      <div className="text-mocha-overlay2">focus nodes: {focusables.length}</div>
+      <div className="text-[#888888] text-[10px]">
+        [nodes: {focusables.length}]
+      </div>
     </motion.section>
   );
 }
