@@ -241,6 +241,8 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
         </div>
       </div>
 
+
+
       <style>{`
         @keyframes fadeInLine {
           from { opacity: 0; }
