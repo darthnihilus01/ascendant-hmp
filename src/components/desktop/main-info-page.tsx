@@ -12,7 +12,7 @@ const PROJECTS = [
   },
   {
     id: "02",
-    title: "OBELISK",
+    title: "ABOUT",
     year: "2026",
     description: "Architecture, Spatial Design",
   },
@@ -48,21 +48,12 @@ export default function MainInfoPage() {
   return (
     <div className="min-h-screen text-white" style={{ backgroundColor: "rgba(0,0,0,0.55)" }}>
       <div className="max-w-[1200px] mx-auto px-8 md:px-16 py-24 md:py-32">
-        <div className="mb-32">
-          <p className="text-xs tracking-[0.2em] text-white/40 uppercase mb-3">
-            Selected Work
-          </p>
-          <h1
-            className="text-[clamp(24px,3vw,40px)] font-bold tracking-[-0.02em] text-white uppercase leading-none"
-            style={{ fontFamily: "var(--font-jetbrains-mono), 'JetBrains Mono', monospace" }}
-          >
-            Projects
-          </h1>
-        </div>
+
 
         <div>
           {PROJECTS.map((project, i) => {
             const isRegister = project.title === "Register";
+            const isAbout = project.title === "ABOUT";
             const item = (
               <div
                 onMouseEnter={() => setHovered(i)}
@@ -106,6 +97,8 @@ export default function MainInfoPage() {
 
             const wrapped = isRegister ? (
               <Link href="/register" className="block">{item}</Link>
+            ) : isAbout ? (
+              <Link href="/about" className="block">{item}</Link>
             ) : item;
 
             return (

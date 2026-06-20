@@ -154,7 +154,7 @@ export default function NetworkDiscovery({ onComplete }: NetworkDiscoveryProps) 
   }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 bg-black">
+    <div className="fixed inset-0 bg-black" style={{ cursor: "none" }}>
       <canvas
         ref={canvasRef}
         style={{ position: "absolute", inset: 0, display: "block" }}

@@ -8,11 +8,14 @@ const BRANDING_FONT_SIZE = 100;
 const BRANDING_LETTER_SPACING = 0.15;
 
 const CANVAS_KEY = "ascendant-canvas";
+const REVEALED_KEY = "ascendant-revealed";
+const REVEALED_TEXT = "FROM JULY 17-18";
 
 export default function CursorPaintReveal() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [typedText, setTypedText] = useState("");
+  const [revealed, setRevealed] = useState(false);
   const lastRef = useRef<{ x: number; y: number } | null>(null);
   const revealedRef = useRef(false);
   const progressCheckThrottleRef = useRef(0);
@@ -24,7 +27,7 @@ export default function CursorPaintReveal() {
     const cvs = canvas;
     const dpr = window.devicePixelRatio || 1;
 
-    function drawBrandingText(w: number, h: number) {
+    function drawBrandingText(w: number, h: number, text: string) {
       const fontSize = BRANDING_FONT_SIZE;
       const font = `600 ${fontSize}px "JetBrains Mono", "Courier New", monospace`;
       ctx.font = font;
@@ -34,10 +37,17 @@ export default function CursorPaintReveal() {
       const y = h - 32;
       const spacingPx = BRANDING_LETTER_SPACING * fontSize;
       let cx = x;
-      for (let i = 0; i < BRANDING_TEXT.length; i++) {
-        ctx.fillText(BRANDING_TEXT[i], cx, y);
-        cx += ctx.measureText(BRANDING_TEXT[i]).width + spacingPx;
+      for (let i = 0; i < text.length; i++) {
+        ctx.fillText(text[i], cx, y);
+        cx += ctx.measureText(text[i]).width + spacingPx;
       }
+    }
+
+    function drawBrandingTextScaled() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const text = revealedRef.current ? REVEALED_TEXT : BRANDING_TEXT;
+      drawBrandingText(w, h, text);
     }
 
     function resize() {
@@ -50,11 +60,17 @@ export default function CursorPaintReveal() {
       ctx.scale(dpr, dpr);
       ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 0, w, h);
-      drawBrandingText(w, h);
+      drawBrandingTextScaled();
     }
 
     // Restore saved canvas or start fresh
     const saved = sessionStorage.getItem(CANVAS_KEY);
+    const savedRevealed = sessionStorage.getItem(REVEALED_KEY) === "true";
+    if (savedRevealed) {
+      revealedRef.current = true;
+      setRevealed(true);
+    }
+
     if (saved) {
       const img = new Image();
       img.onload = () => {
@@ -67,7 +83,7 @@ export default function CursorPaintReveal() {
         ctx.scale(dpr, dpr);
         ctx.drawImage(img, 0, 0, w, h);
         ctx.globalCompositeOperation = "source-atop";
-        drawBrandingText(w, h);
+        drawBrandingTextScaled();
         ctx.globalCompositeOperation = "destination-out";
       };
       img.src = saved;
@@ -125,6 +141,24 @@ export default function CursorPaintReveal() {
       const p = checkProgress();
       if (p > 0.6) {
         revealedRef.current = true;
+        setRevealed(true);
+        sessionStorage.setItem(REVEALED_KEY, "true");
+        // Update canvas text to match revealed text, preserving brush holes
+        const savedData = ctx.getImageData(0, 0, cvs.width, cvs.height);
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, w, h);
+        drawBrandingText(w, h, REVEALED_TEXT);
+        const newData = ctx.getImageData(0, 0, cvs.width, cvs.height);
+        for (let i = 3; i < savedData.data.length; i += 4) {
+          if (savedData.data[i] < 128) {
+            newData.data[i] = 0;
+          }
+        }
+        ctx.putImageData(newData, 0, 0);
+        ctx.globalCompositeOperation = "destination-out";
       }
     }
 
@@ -170,9 +204,8 @@ export default function CursorPaintReveal() {
       cvs.style.height = `${h}px`;
       ctx.scale(dpr, dpr);
       ctx.drawImage(tempCanvas, 0, 0);
-      // Redraw text crisp, only on non-transparent areas so brush holes stay clear
       ctx.globalCompositeOperation = "source-atop";
-      drawBrandingText(w, h);
+      drawBrandingTextScaled();
       ctx.globalCompositeOperation = "destination-out";
     }
 
@@ -183,6 +216,7 @@ export default function CursorPaintReveal() {
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("resize", onResize);
       sessionStorage.setItem(CANVAS_KEY, cvs.toDataURL());
+      sessionStorage.setItem(REVEALED_KEY, revealedRef.current ? "true" : "false");
     };
   }, []);
 
@@ -239,7 +273,7 @@ export default function CursorPaintReveal() {
             fontFamily: "var(--font-jetbrains-mono), 'JetBrains Mono', 'Courier New', monospace",
           }}
         >
-          {BRANDING_TEXT}
+          {revealed ? REVEALED_TEXT : BRANDING_TEXT}
         </div>
       </div>
 

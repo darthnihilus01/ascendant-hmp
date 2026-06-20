@@ -119,7 +119,7 @@ export default function BootSequence({ onComplete }: BootSequenceProps) {
       tabIndex={0}
       onKeyDown={handleKeyDown}
       className="fixed inset-0 bg-black flex items-center justify-center outline-none"
-      style={{ fontFamily: "var(--font-jetbrains-mono), 'JetBrains Mono', 'Courier New', monospace" }}
+      style={{ fontFamily: "var(--font-jetbrains-mono), 'JetBrains Mono', 'Courier New', monospace", cursor: "none" }}
       aria-label="Ascendant boot sequence"
     >
       {/* Boot log layer */}

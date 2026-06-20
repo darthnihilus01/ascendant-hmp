@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import CursorPaintReveal from "@/components/cursor-paint-reveal";
+import PixelDisintegration from "@/components/pixel-disintegration";
 import BootSequence from "@/components/desktop/boot-sequence";
 import NetworkDiscovery from "@/components/desktop/network-discovery";
 import MainInfoPage from "@/components/desktop/main-info-page";
@@ -21,6 +21,7 @@ export default function DesktopRoot() {
   const [landingVisible, setLandingVisible] = useState(
     () => getInitialState() === "landing"
   );
+  const [showMain, setShowMain] = useState(false);
   useEffect(() => {
     sessionStorage.setItem("ascendant-gate", "1");
   }, []);
@@ -66,8 +67,8 @@ export default function DesktopRoot() {
         transition: "opacity 1s ease",
       }}
     >
-      <CursorPaintReveal />
-      <MainInfoPage />
+      <PixelDisintegration onRevealedChange={(r) => setShowMain(r)} />
+      {showMain && <MainInfoPage />}
     </div>
   );
 }
